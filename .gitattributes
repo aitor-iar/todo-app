@@ -1,1 +1,2 @@
-* text=auto
+# Forzar sistema de finales de línea LF para todos los archivos de texto
+* text=auto eol=lf
