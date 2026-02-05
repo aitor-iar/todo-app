@@ -1,0 +1,42 @@
+name: CI Code Quality
+
+# Se ejecuta cuando haces push a la rama main o abres un Pull Request
+on:
+  push:
+    branches: ['main', 'master']
+  pull_request:
+    branches: ['main', 'master']
+
+jobs:
+  verification:
+    name: Lint, Format & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descargar el código del repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Instalar Bun en el entorno de GitHub
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # 3. Instalar dependencias (usando el lockfile para ser exactos)
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # 4. Verificar Linter (ESLint)
+      - name: Run Linter
+        run: bun run lint
+
+      # 5. Verificar Formato (Prettier)
+      # Si falla aquí, es que alguien subió código sin formatear
+      - name: Check Formatting
+        run: bun run format:check
+
+      # 6. Verificar Construcción (Build)
+      # Esto confirma que no hay errores de TypeScript graves
+      - name: Build Project
+        run: bun run build

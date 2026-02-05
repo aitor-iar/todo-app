@@ -10,5 +10,7 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  // Para que VS Code no se queje de la sintaxis de Tailwind v4
+  "css.lint.unknownAtRules": "ignore"
 }
